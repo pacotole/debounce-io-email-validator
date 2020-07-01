@@ -12,3 +12,5 @@ Allow also cache API calls if not external cache available.
 Avoid re-checking email on users or clients that already exist when login.
 * **Added WooCommerce billing and shipping email verification.**
 Allow check order emails if is not hooked `is_email()` validation.
+* **Fixed "on registration" hook & added on WooCommerce registration hook.**
+Replaced correct hook filter for user registration and added filter for WooCommerce customer registration.

@@ -29,7 +29,8 @@ class DEBOUNCE_On_Registration {
 	 */
 	public function setup() {
 
-		add_action( 'registration_errors', array( $this, 'validate' ), 10, 3 );
+		add_filter( 'registration_errors', array( $this, 'validate' ), 10, 3 );
+		add_filter( 'woocommerce_registration_errors', array( $this, 'validate' ), 10, 3 );
 	}
 
 	/**
@@ -51,7 +52,7 @@ class DEBOUNCE_On_Registration {
 		$this->validator->set_email( $email );
 		$maybe_valid = $this->validator->validate();
 		if ( ! $maybe_valid ) {
-			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.', 'email-validator-by-debounce' ) );
+			$errors->add( 'invalid_email', __( 'The email address isn&#8217;t correct.', 'email-validator-by-debounce' ) );
 		}
 		return $errors;
 	}
