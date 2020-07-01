@@ -15,7 +15,7 @@ class DEBOUNCE_GravityForms {
 	 *
 	 * @var object
 	 */
-	protected $validator = NULL;
+	protected $validator = null;
 
 
 	/**
@@ -36,41 +36,46 @@ class DEBOUNCE_GravityForms {
 	 *
 	 * @param result
 	 *
-	 * @param value 
+	 * @param value
 	 *
-	 * @param form 
+	 * @param form
 	 *
-	 * @param field 
+	 * @param field
 	 *
-	 * @return result 
+	 * @return result
 	 */
 	public function validate( $result, $value, $form, $field ) {
-	
-			//$field_print = print_r($results,true);
-			if($field->type == 'email' && $field->isRequired == '0' && $value==''){
-				$result['is_valid'] = true;
-				return $result;
-			}
-			
-        	if ($field->type == 'email' && $result['is_valid']) {
-		   	$this->validator->set_email( $value );
+
+			// $field_print = print_r($results,true);
+		if ( $field->type == 'email' && $field->isRequired == '0' && $value == '' ) {
+			$result['is_valid'] = true;
+			return $result;
+		}
+
+		if ( $field->type == 'email' && $result['is_valid'] ) {
+			$this->validator->set_email( $value );
 			$this->validator->validate();
-			
+
 			$bbdf = $this->validator->get_email_status();
-			if($bbdf=='0'){$messt = 'API Error: Contact the website support.';}
-			if($bbdf=='1'){$messt = 'The entered value is not an email address!';}
-			if($bbdf=='2'){$messt = 'The entered email is considered as a spam-trap! Please change this email address.';}
-			if($bbdf=='3'){$messt = 'Disposable emails are not supported! Use a real email address.';}
-			if($bbdf=='6'){$messt = 'This email address is invalid and is not allowed. Please use a real email address.';}
-			if($messt==''){$messt = 'This email address is invalid and is not allowed. Please use a real email address.';}
-			
-			
-			if ( !$this->validator->get_is_valid() ) {
-			$result['is_valid'] = false;
-             		$result['message']  = empty( $field->errorMessage ) ? __( $messt, 'email-validator-by-debounce' ) : $field->errorMessage;
+			if ( $bbdf == '0' ) {
+				$messt = 'API Error: Contact the website support.';}
+			if ( $bbdf == '1' ) {
+				$messt = 'The entered value is not an email address!';}
+			if ( $bbdf == '2' ) {
+				$messt = 'The entered email is considered as a spam-trap! Please change this email address.';}
+			if ( $bbdf == '3' ) {
+				$messt = 'Disposable emails are not supported! Use a real email address.';}
+			if ( $bbdf == '6' ) {
+				$messt = 'This email address is invalid and is not allowed. Please use a real email address.';}
+			if ( $messt == '' ) {
+				$messt = 'This email address is invalid and is not allowed. Please use a real email address.';}
+
+			if ( ! $this->validator->get_is_valid() ) {
+				$result['is_valid']    = false;
+					$result['message'] = empty( $field->errorMessage ) ? __( $messt, 'email-validator-by-debounce' ) : $field->errorMessage;
 			}
-    		}
-    		return $result;
+		}
+			return $result;
 	}
 
 	/**

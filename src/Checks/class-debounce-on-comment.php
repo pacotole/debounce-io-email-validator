@@ -15,7 +15,7 @@ class DEBOUNCE_On_Comment {
 	 *
 	 * @var object
 	 */
-	protected $validator = NULL;
+	protected $validator = null;
 
 
 	/**
@@ -60,7 +60,7 @@ class DEBOUNCE_On_Comment {
 	public function validate( $is_valid, $email, $context ) {
 
 		if ( ! $is_valid ) {
-			return FALSE;
+			return false;
 		}
 		$this->validator->set_email( $email );
 		return $this->validator->validate();

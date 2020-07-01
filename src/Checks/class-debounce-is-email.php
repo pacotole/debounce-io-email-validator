@@ -15,7 +15,7 @@ class DEBOUNCE_is_email {
 	 *
 	 * @var object
 	 */
-	protected $validator = NULL;
+	protected $validator = null;
 
 
 	/**
@@ -36,14 +36,14 @@ class DEBOUNCE_is_email {
 	 *
 	 * @param boolean $is_valid Validation status
 	 * @param string  $email    Email to validate
-	 * @param string  $context  
+	 * @param string  $context
 	 *
 	 * @return bool
 	 */
 	public function validate( $is_valid, $email, $context ) {
 
 		if ( ! $is_valid ) {
-			return FALSE;
+			return false;
 		}
 		$this->validator->set_email( $email );
 		return $this->validator->validate();

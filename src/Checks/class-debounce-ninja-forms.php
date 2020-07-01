@@ -15,7 +15,7 @@ class DEBOUNCE_NinjaForms {
 	 *
 	 * @var object
 	 */
-	protected $validator = NULL;
+	protected $validator = null;
 
 
 	/**
@@ -36,23 +36,23 @@ class DEBOUNCE_NinjaForms {
 	 *
 	 * @param array  form_data
 	 *
-	 * @return array form_data 
+	 * @return array form_data
 	 */
 	public function validate( $form_data ) {
 
-		foreach( $form_data[ 'fields' ] as $key => $field ) {
-	  	   $value = $field['value'];	
-	  	   // ignore multi-line strings / textareas
-		   if ( preg_match('/@.+\./', $value) && strpos($value, "\n") === false && strpos($value, '\n') === false ) {
-		   	$this->validator->set_email( $value );
-		    	$this->validator->validate();		    		
-		    	if ( !$this->validator->get_is_valid() ) {
-				   $field_id = $field['id'];
-		    		$form_data['errors']['fields'][$field_id] = __( 'This email address is invalid or not allowed - please check.', 'email-validator-by-debounce' );
-		    	}		    		
-		   }
+		foreach ( $form_data['fields'] as $key => $field ) {
+			$value = $field['value'];
+			// ignore multi-line strings / textareas
+			if ( preg_match( '/@.+\./', $value ) && strpos( $value, "\n" ) === false && strpos( $value, '\n' ) === false ) {
+				$this->validator->set_email( $value );
+				$this->validator->validate();
+				if ( ! $this->validator->get_is_valid() ) {
+					$field_id                                   = $field['id'];
+					$form_data['errors']['fields'][ $field_id ] = __( 'This email address is invalid or not allowed - please check.', 'email-validator-by-debounce' );
+				}
+			}
 		}
-		return $form_data;			
+		return $form_data;
 	}
 
 	/**

@@ -15,7 +15,7 @@ class DEBOUNCE_Ajax_Handler {
 	 *
 	 * @var bool
 	 */
-	protected $private = TRUE;
+	protected $private = true;
 
 	/**
 	 * The action.
@@ -29,7 +29,7 @@ class DEBOUNCE_Ajax_Handler {
 	 *
 	 * @var callable
 	 */
-	protected $callback = NULL;
+	protected $callback = null;
 
 	/**
 	 * Registers a new handler.
@@ -38,7 +38,7 @@ class DEBOUNCE_Ajax_Handler {
 	 * @param callable $callback The callback function.
 	 * @param boolean  $private If it is public or not (Default: TRUE).
 	 */
-	public function register( $action, $callback, $private = TRUE ) {
+	public function register( $action, $callback, $private = true ) {
 
 		$this->set_action( $action );
 		$this->set_callback( $callback );
@@ -90,7 +90,7 @@ class DEBOUNCE_Ajax_Handler {
 	public function set_callback( $callback ) {
 
 		if ( ! is_callable( $callback ) ) {
-			return FALSE;
+			return false;
 		}
 		$this->callback = $callback;
 		return $this->get_callback();

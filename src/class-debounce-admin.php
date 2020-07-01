@@ -16,7 +16,7 @@ class DEBOUNCE_Admin {
 	 * @see   get_instance()
 	 * @var  object
 	 */
-	protected static $instance = NULL;
+	protected static $instance = null;
 
 	/**
 	 * Load the admin interface
@@ -53,7 +53,7 @@ class DEBOUNCE_Admin {
 		$url = admin_url( 'options-general.php' );
 		$url = add_query_arg(
 			array(
-				'page'                => 'debounce_email_validator',
+				'page'                    => 'debounce_email_validator',
 				'debounce-api-key-notice' => wp_create_nonce( 'remove-api-key-notice' ),
 			),
 			$url
@@ -76,7 +76,7 @@ class DEBOUNCE_Admin {
 	 */
 	function admin_menu() {
 
-		add_options_page( __('DeBounce.io Email Validator', 'email-validator-by-debounce' ), __('DeBounce.io Email Validator', 'email-validator-by-debounce' ), 'manage_options', 'debounce_email_validator', array( $this, 'render_page' ) );
+		add_options_page( __( 'DeBounce.io Email Validator', 'email-validator-by-debounce' ), __( 'DeBounce.io Email Validator', 'email-validator-by-debounce' ), 'manage_options', 'debounce_email_validator', array( $this, 'render_page' ) );
 	}
 
 	/**
@@ -88,7 +88,7 @@ class DEBOUNCE_Admin {
 
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e('DeBounce.io Email Validator', 'email-validator-by-debounce' ); ?></h1>
+			<h1><?php esc_html_e( 'DeBounce.io Email Validator', 'email-validator-by-debounce' ); ?></h1>
 			<form action='options.php' method='post'>
 				<?php
 				settings_fields( 'debounce_email_validator' );
@@ -98,12 +98,12 @@ class DEBOUNCE_Admin {
 			</form>
 			
 			<div class="box-area" style="">
-				<h2><?php esc_html_e('Validate Email Address', 'email-validator-by-debounce'); ?></h2>
-				<p><?php esc_html_e('Please enter the email address you want to validate.', 'email-validator-by-debounce'); ?></p>
+				<h2><?php esc_html_e( 'Validate Email Address', 'email-validator-by-debounce' ); ?></h2>
+				<p><?php esc_html_e( 'Please enter the email address you want to validate.', 'email-validator-by-debounce' ); ?></p>
 				<table class="form-table">
 					<tbody>
 					<tr>
-						<th scope="row"><?php esc_html_e('Email', 'email-validator-by-debounce'); ?></th>
+						<th scope="row"><?php esc_html_e( 'Email', 'email-validator-by-debounce' ); ?></th>
 						<td>
 							<input id="debounce-mail" value="" type="text">
 						</td>
@@ -112,7 +112,7 @@ class DEBOUNCE_Admin {
 				</table>
 				<p id="debounce-message"></p>
 				<p class="submit">
-					<input name="submit" id="debounce-button-validate" class="button button-primary" value="<?php echo esc_attr( __('Validate', 'email-validator-by-debounce') ); ?>" type="submit">
+					<input name="submit" id="debounce-button-validate" class="button button-primary" value="<?php echo esc_attr( __( 'Validate', 'email-validator-by-debounce' ) ); ?>" type="submit">
 				</p>
 				<ul id="debounce-list"></ul>
 			</div>
@@ -134,18 +134,18 @@ class DEBOUNCE_Admin {
 			return;
 		}
 
-		$plugin = DEBOUNCE_Plugin::get_instance();
+		$plugin     = DEBOUNCE_Plugin::get_instance();
 		$plugin_url = $plugin->get_plugin_url();
 
 		$min = ( ! $plugin->is_debug() ) ? '.min' : '';
 
 		wp_register_style( 'debounce_main_style', $plugin_url . 'assets/css/debounce_style' . $min . '.css' );
-		wp_register_script('debounce_main_script', $plugin_url . 'assets/js/debounce_script' . $min . '.js', array( 'jquery', 'underscore' ), '1.0', TRUE );
+		wp_register_script( 'debounce_main_script', $plugin_url . 'assets/js/debounce_script' . $min . '.js', array( 'jquery', 'underscore' ), '1.0', true );
 
-		$js_vars = $plugin->js_localization();
+		$js_vars           = $plugin->js_localization();
 		$js_vars['ul_tpl'] = '<li><span><%- status %></span><%- mail %></li>';
 
-		wp_localize_script( 'debounce_main_script', 'debounce', $js_vars);
+		wp_localize_script( 'debounce_main_script', 'debounce', $js_vars );
 		wp_enqueue_script( 'debounce_main_script' );
 		wp_enqueue_style( 'debounce_main_style' );
 	}
@@ -207,7 +207,7 @@ class DEBOUNCE_Admin {
 				'default' => 0,
 			)
 		);
-						
+
 		add_settings_field(
 			'debounce_is_email_check',
 			__( 'Hook to is_email() function', 'email-validator-by-debounce' ),
@@ -235,7 +235,7 @@ class DEBOUNCE_Admin {
 				'default' => 0,
 			)
 		);
-		
+
 		add_settings_field(
 			'debounce_ninja_check',
 			__( 'Hook to Ninja Forms', 'email-validator-by-debounce' ),
@@ -264,7 +264,7 @@ class DEBOUNCE_Admin {
 			)
 		);
 
-/*
+		/*
 		add_settings_field(
 			'debounce_rc308_check',
 			__( 'Block role addresses like info@, admin@, postmaster@ ...', 'email-validator-by-debounce' ),
@@ -306,7 +306,7 @@ class DEBOUNCE_Admin {
 				'default' => '',
 			)
 		);
-*/
+		*/
 	}
 
 	/**
@@ -337,7 +337,9 @@ class DEBOUNCE_Admin {
 			padding-bottom: 10px;
 		}
 		</style>';
-		echo wp_kses_post( __('
+		echo wp_kses_post(
+			__(
+				'
 		<div class="box-area">
 		<a href="https://debounce.io" target="_blank"><img src="https://debounce.io/wp-content/uploads/2018/01/debounce-logo-2.png" style="float: right; width: 190px;"></a>
 		You can use <a href="https://debounce.io" target="_blank">DeBounce API</a> to validate email addresses in real-time on your website. DeBounce API engine perform the following checks:
@@ -365,8 +367,11 @@ class DEBOUNCE_Admin {
 		You can register for a <a href="https://app.debounce.io/register" target="_blank">free API key</a> (limited to 100 address checks).<br>
 		If you want to verify more than 100 addresses, please have a look at our pay-as-you-go pricing model and the <a href="https://debounce.io/pricing" target="_blank">subscription plans</a> we offer.
 		</div>
-		', 'email-validator-by-debounce' ) );
-		
+		',
+				'email-validator-by-debounce'
+			)
+		);
+
 		echo '<br><br>
 		<div class="box-area">
 		<b>Want to validate Third-Party Fields?</b><br>
@@ -402,22 +407,23 @@ if ( function_exists( \'debounce_activate_third_party\' ) ) {
 			'key'     => 'debounce_api_key',
 			'default' => 0,
 		);
-		$args = wp_parse_args( $args, $default_args );
+		$args         = wp_parse_args( $args, $default_args );
 
 		$plugin = DEBOUNCE_Plugin::get_instance();
 		$option = $plugin->get_option( $args['key'] );
-		$value = ( NULL !== $option ) ? $option : $args['default'];
+		$value  = ( null !== $option ) ? $option : $args['default'];
 
 		if ( 'text' === $args['type'] ) :
-		?>
+			?>
 		<input
 			id="debounce_email_<?php echo esc_attr( $args['key'] ); ?>"
 			type="text"
 			name="debounce_settings[<?php echo esc_attr( $args['key'] ); ?>]"
 			value="<?php echo esc_attr( $value ); ?>"
 		>
-		<?php
-		elseif ( 'checkbox' === $args['type'] ) : ?>
+			<?php
+		elseif ( 'checkbox' === $args['type'] ) :
+			?>
 		<input
 			id="debounce_email_<?php echo esc_attr( $args['key'] ); ?>"
 			type="checkbox"
@@ -425,7 +431,7 @@ if ( function_exists( \'debounce_activate_third_party\' ) ) {
 			value="1"
 			<?php checked( $value, 1 ); ?>
 		>
-		<?php
+			<?php
 		endif;
 
 	}
@@ -438,7 +444,7 @@ if ( function_exists( \'debounce_activate_third_party\' ) ) {
 	 */
 	public static function get_instance() {
 
-		NULL === self::$instance and self::$instance = new self;
+		null === self::$instance and self::$instance = new self();
 
 		return self::$instance;
 	}

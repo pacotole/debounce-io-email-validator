@@ -16,7 +16,7 @@ class DEBOUNCE_On_Registration {
 	 *
 	 * @var object
 	 */
-	protected $validator = NULL;
+	protected $validator = null;
 
 
 	/**
@@ -44,7 +44,7 @@ class DEBOUNCE_On_Registration {
 	public function validate( $errors, $sanitized_user_login, $email ) {
 
 		// If it is not an email by WP or because we have hooked in already.
-		if ( ! is_email( $email ) || email_exists( $email )  ) {
+		if ( ! is_email( $email ) || email_exists( $email ) ) {
 			return $errors;
 		}
 

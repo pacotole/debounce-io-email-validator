@@ -15,14 +15,14 @@ class DEBOUNCE_Ajax_Validate_Email {
 	 *
 	 * @var object
 	 */
-	protected $handler = NULL;
+	protected $handler = null;
 
 	/**
 	 * Whether the ajax handler is private.
 	 *
 	 * @var bool
 	 */
-	protected $private = TRUE;
+	protected $private = true;
 
 	/**
 	 * The action.
@@ -36,7 +36,7 @@ class DEBOUNCE_Ajax_Validate_Email {
 	 *
 	 * @var object
 	 */
-	protected $validator = NULL;
+	protected $validator = null;
 
 	/**
 	 * The callback.
@@ -44,9 +44,9 @@ class DEBOUNCE_Ajax_Validate_Email {
 	public function callback() {
 
 		$return = array(
-			'is_valid' => NULL,
+			'is_valid' => null,
 			'status'   => '',
-			'error'    => TRUE,
+			'error'    => true,
 		);
 
 		if ( empty( $_POST['debounce-nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['debounce-nonce'] ) ), 'validate-email' ) ) { // Input var okay.
@@ -60,10 +60,10 @@ class DEBOUNCE_Ajax_Validate_Email {
 		$email = sanitize_text_field( wp_unslash( $_POST['email'] ) ); // Input var okay.
 		$this->validator->set_email( $email );
 		$is_valid = $this->validator->validate();
-		$return = array(
+		$return   = array(
 			'is_valid' => $is_valid,
 			'status'   => $this->validator->get_email_status(),
-			'error'    => FALSE,
+			'error'    => false,
 		);
 
 		wp_send_json( $return );

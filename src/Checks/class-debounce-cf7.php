@@ -15,7 +15,7 @@ class DEBOUNCE_ContactForm7 {
 	 *
 	 * @var object
 	 */
-	protected $validator = NULL;
+	protected $validator = null;
 
 
 	/**
@@ -42,17 +42,17 @@ class DEBOUNCE_ContactForm7 {
 	 */
 	public function validate( $result, $tag ) {
 
-   	$tag = new WPCF7_FormTag( $tag );
-     	$type = $tag->type;
-      $name = $tag->name;
-      if ('email' == $type || 'email*' == $type) {
-      	$this->validator->set_email( sanitize_email($_POST[$name]) );
-		   $this->validator->validate();	
-        	if( !$this->validator->get_is_valid() ) {
-             $result->invalidate( $tag, __( 'This email address is invalid or not allowed - please check.', 'email-validator-by-debounce' ) );
-         }
-      }
-      return $result;
+		$tag  = new WPCF7_FormTag( $tag );
+		$type = $tag->type;
+		$name = $tag->name;
+		if ( 'email' == $type || 'email*' == $type ) {
+			$this->validator->set_email( sanitize_email( $_POST[ $name ] ) );
+			 $this->validator->validate();
+			if ( ! $this->validator->get_is_valid() ) {
+				$result->invalidate( $tag, __( 'This email address is invalid or not allowed - please check.', 'email-validator-by-debounce' ) );
+			}
+		}
+		return $result;
 	}
 
 	/**

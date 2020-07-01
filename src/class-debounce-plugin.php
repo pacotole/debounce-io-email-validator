@@ -15,7 +15,7 @@ class DEBOUNCE_Plugin {
 	 *
 	 * @var  bool
 	 */
-	protected static $debug = NULL;
+	protected static $debug = null;
 
 	/**
 	 * Plugin instance.
@@ -23,7 +23,7 @@ class DEBOUNCE_Plugin {
 	 * @see   get_instance()
 	 * @var  object
 	 */
-	protected static $instance = NULL;
+	protected static $instance = null;
 
 	/**
 	 * URL to this plugin's directory.
@@ -44,14 +44,14 @@ class DEBOUNCE_Plugin {
 	 *
 	 * @var object
 	 */
-	private $api = NULL;
+	private $api = null;
 
 	/**
 	 * The validator object.
 	 *
 	 * @var object
 	 */
-	private $validator = NULL;
+	private $validator = null;
 
 	/**
 	 * The options
@@ -68,11 +68,11 @@ class DEBOUNCE_Plugin {
 	 */
 	public static function get_instance() {
 
-		if ( NULL === self::$debug ) {
-			self::$debug = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? TRUE : FALSE;
+		if ( null === self::$debug ) {
+			self::$debug = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? true : false;
 		}
 
-		NULL === self::$instance and self::$instance = new self;
+		null === self::$instance and self::$instance = new self();
 
 		return self::$instance;
 	}
@@ -85,73 +85,73 @@ class DEBOUNCE_Plugin {
 	 */
 	public function plugin_setup() {
 
-		$this->plugin_url	= plugins_url( '/', dirname( __FILE__ ) );
-		$this->plugin_path   = 'email-validator-by-debounce/';
+		$this->plugin_url  = plugins_url( '/', dirname( __FILE__ ) );
+		$this->plugin_path = 'email-validator-by-debounce/';
 		$this->load_language( 'email-validator-by-debounce' );
 
 		// Load Options.
 		$this->set_options( get_option( 'debounce_settings', array() ) );
 
 		// Load the API.
-		require_once( dirname( __FILE__ ) . '/API/class-debounce-api.php' );
-		require_once( dirname( __FILE__ ) . '/API/class-debounce-email-validator.php' );
+		require_once dirname( __FILE__ ) . '/API/class-debounce-api.php';
+		require_once dirname( __FILE__ ) . '/API/class-debounce-email-validator.php';
 		$this->api = new DEBOUNCE_API();
 		$this->api->set_apikey( $this->get_option( 'debounce_api_key' ) );
 		$this->validator = new DEBOUNCE_Email_Validator();
 		$this->validator->set_api( $this->api );
 		if ( 0 === (int) $this->get_option( 'debounce_rc305_check' ) ) {
-			$this->validator->add_status_valid('305');
+			$this->validator->add_status_valid( '305' );
 		}
 		if ( 0 === (int) $this->get_option( 'debounce_rc308_check' ) ) {
-			$this->validator->add_status_valid('308');
+			$this->validator->add_status_valid( '308' );
 		}
 		$this->validator->set_blacklist( $this->get_option( 'debounce_blacklist' ) );
 
 		// Load the Ajax Interface.
-		require_once( dirname( __FILE__ ) . '/AJAX/class-debounce-ajax-handler.php' );
-		require_once( dirname( __FILE__ ) . '/AJAX/class-debounce-ajax-validate-email.php' );
+		require_once dirname( __FILE__ ) . '/AJAX/class-debounce-ajax-handler.php';
+		require_once dirname( __FILE__ ) . '/AJAX/class-debounce-ajax-validate-email.php';
 		$ajax_handler = new DEBOUNCE_Ajax_Handler();
-		$ajax = new DEBOUNCE_Ajax_Validate_Email();
+		$ajax         = new DEBOUNCE_Ajax_Validate_Email();
 		$ajax->set_validator( $this->validator );
 		$ajax->set_handler( $ajax_handler );
 
 		if ( 1 === (int) $this->get_option( 'debounce_is_email_check' ) ) {
-			require_once( dirname( __FILE__ ) . '/Checks/class-debounce-is-email.php' );
+			require_once dirname( __FILE__ ) . '/Checks/class-debounce-is-email.php';
 			$email_check = new DEBOUNCE_is_email();
 			$email_check->set_validator( $this->validator );
 			$email_check->setup();
 		}
 
 		if ( 1 === (int) $this->get_option( 'debounce_cf7_check' ) ) {
-			require_once( dirname( __FILE__ ) . '/Checks/class-debounce-cf7.php' );
+			require_once dirname( __FILE__ ) . '/Checks/class-debounce-cf7.php';
 			$email_check = new DEBOUNCE_ContactForm7();
 			$email_check->set_validator( $this->validator );
 			$email_check->setup();
 		}
 
 		if ( 1 === (int) $this->get_option( 'debounce_ninja_check' ) ) {
-			require_once( dirname( __FILE__ ) . '/Checks/class-debounce-ninja-forms.php' );
+			require_once dirname( __FILE__ ) . '/Checks/class-debounce-ninja-forms.php';
 			$email_check = new DEBOUNCE_NinjaForms();
 			$email_check->set_validator( $this->validator );
 			$email_check->setup();
 		}
 
 		if ( 1 === (int) $this->get_option( 'debounce_gravity_check' ) ) {
-			require_once( dirname( __FILE__ ) . '/Checks/class-debounce-gravity-forms.php' );
+			require_once dirname( __FILE__ ) . '/Checks/class-debounce-gravity-forms.php';
 			$email_check = new DEBOUNCE_GravityForms();
 			$email_check->set_validator( $this->validator );
 			$email_check->setup();
 		}
 
 		if ( 1 === (int) $this->get_option( 'debounce_comments_check' ) ) {
-			require_once( dirname( __FILE__ ) . '/Checks/class-debounce-on-comment.php' );
+			require_once dirname( __FILE__ ) . '/Checks/class-debounce-on-comment.php';
 			$comment_check = new DEBOUNCE_On_Comment();
 			$comment_check->set_validator( $this->validator );
 			$comment_check->setup();
 		}
 
 		if ( 1 === (int) $this->get_option( 'debounce_reg_check' ) ) {
-			require_once( dirname( __FILE__ ) . '/Checks/class-debounce-on-registration.php' );
+			require_once dirname( __FILE__ ) . '/Checks/class-debounce-on-registration.php';
 			$comment_check = new DEBOUNCE_On_Registration();
 			$comment_check->set_validator( $this->validator );
 			$comment_check->setup();
@@ -162,7 +162,7 @@ class DEBOUNCE_Plugin {
 		 *
 		 * @param bool
 		 */
-		$ajax_is_private = (bool) apply_filters( 'debounce_api_is_private', TRUE );
+		$ajax_is_private = (bool) apply_filters( 'debounce_api_is_private', true );
 		$ajax->set_private( $ajax_is_private );
 		$ajax->register();
 
@@ -170,7 +170,7 @@ class DEBOUNCE_Plugin {
 
 		if ( is_admin() ) {
 			// Load the Admin Interface.
-			require_once( dirname( __FILE__ ) . '/class-debounce-admin.php' );
+			require_once dirname( __FILE__ ) . '/class-debounce-admin.php';
 			$admin = DEBOUNCE_Admin::get_instance();
 			$admin->load();
 		}
@@ -196,14 +196,14 @@ class DEBOUNCE_Plugin {
 		if ( ! self::$debug ) {
 			$min = '.min';
 		}
-		wp_register_script('debounce_frontend_script', $this->get_plugin_url() . 'assets/js/debounce_form_script' . $min . '.js', array( 'jquery', 'underscore' ), '1.0', TRUE );
+		wp_register_script( 'debounce_frontend_script', $this->get_plugin_url() . 'assets/js/debounce_form_script' . $min . '.js', array( 'jquery', 'underscore' ), '1.0', true );
 
 		$js_vars = $this->js_localization();
 
 		// The HTML templates.
-		$js_vars['tpl']    = '<span class="debounce-error"><%- status %> <%- mail %></span>';
+		$js_vars['tpl'] = '<span class="debounce-error"><%- status %> <%- mail %></span>';
 
-		wp_localize_script( 'debounce_frontend_script', 'debounce', $js_vars);
+		wp_localize_script( 'debounce_frontend_script', 'debounce', $js_vars );
 	}
 
 	/**
@@ -219,7 +219,8 @@ class DEBOUNCE_Plugin {
 	 * Add footer styles on frontend
 	 */
 	public function footer_styles() {
-		?><style>.debounce-error {color: #f00;}</style><?php
+		?><style>.debounce-error {color: #f00;}</style>
+		<?php
 	}
 	/**
 	 * Get the plugin url
@@ -252,15 +253,15 @@ class DEBOUNCE_Plugin {
 			'AJAX_URL' => esc_js( admin_url( 'admin-ajax.php' ) ),
 			'nonce'    => esc_js( wp_create_nonce( 'validate-email' ) ),
 
-			'0'      => __( 'Invalid - Invalid API or Credits Low', 'email-validator-by-debounce' ),
-			'1'      => __( 'Invalid - Syntax, Not an email', 'email-validator-by-debounce' ),
-			'2'      => __( 'Invalid - Spamtrap, Spam-trap by ESPs', 'email-validator-by-debounce' ),
-			'3'      => __( 'Invalid - Disposable, A temporary, disposable address', 'email-validator-by-debounce' ),
-			'4'      => __( 'Risk - Accept-All, A domain-wide setting', 'email-validator-by-debounce' ),
-			'5'      => __( 'OK - Delivarable, Verified as real address', 'email-validator-by-debounce' ),
-			'6'      => __( 'Invalid - Verified as not valid.', 'email-validator-by-debounce' ),
-			'7'      => __( 'Risk - Unknown, The server cannot be reached', 'email-validator-by-debounce' ),
-			'8'      => __( 'Role accounts such as info, support, etc.', 'email-validator-by-debounce' ),
+			'0'        => __( 'Invalid - Invalid API or Credits Low', 'email-validator-by-debounce' ),
+			'1'        => __( 'Invalid - Syntax, Not an email', 'email-validator-by-debounce' ),
+			'2'        => __( 'Invalid - Spamtrap, Spam-trap by ESPs', 'email-validator-by-debounce' ),
+			'3'        => __( 'Invalid - Disposable, A temporary, disposable address', 'email-validator-by-debounce' ),
+			'4'        => __( 'Risk - Accept-All, A domain-wide setting', 'email-validator-by-debounce' ),
+			'5'        => __( 'OK - Delivarable, Verified as real address', 'email-validator-by-debounce' ),
+			'6'        => __( 'Invalid - Verified as not valid.', 'email-validator-by-debounce' ),
+			'7'        => __( 'Risk - Unknown, The server cannot be reached', 'email-validator-by-debounce' ),
+			'8'        => __( 'Role accounts such as info, support, etc.', 'email-validator-by-debounce' ),
 		);
 	}
 
@@ -283,7 +284,7 @@ class DEBOUNCE_Plugin {
 	 */
 	public function set_options( $options ) {
 
-		$defaults = array(
+		$defaults      = array(
 			'debounce_api_key' => '',
 		);
 		$this->options = wp_parse_args( (array) $options, $defaults );
@@ -299,7 +300,7 @@ class DEBOUNCE_Plugin {
 	 */
 	public function get_option( $option_key ) {
 
-		return ( ! empty( $this->options[ $option_key ] ) ) ? $this->options[ $option_key ] : NULL;
+		return ( ! empty( $this->options[ $option_key ] ) ) ? $this->options[ $option_key ] : null;
 	}
 
 
@@ -329,7 +330,7 @@ class DEBOUNCE_Plugin {
 
 		load_plugin_textdomain(
 			$domain,
-			FALSE,
+			false,
 			$this->plugin_path . 'languages'
 		);
 	}

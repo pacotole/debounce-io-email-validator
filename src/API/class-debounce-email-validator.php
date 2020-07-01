@@ -10,22 +10,22 @@
  */
 class DEBOUNCE_Email_Validator {
 
-   protected $valid_status_list = array(
-			'4',
-			'5',
-			'7',
-						
-			'0',
+	protected $valid_status_list = array(
+		'4',
+		'5',
+		'7',
+
+		'0',
 	);
-		
+
 	protected $blacklist = array();
-	
+
 	/**
 	 * Whether the email address is valid.
 	 *
 	 * @var bool
 	 */
-	protected $is_valid = TRUE;
+	protected $is_valid = true;
 
 	/**
 	 * The email to validate.
@@ -47,7 +47,7 @@ class DEBOUNCE_Email_Validator {
 	 *
 	 * @var object
 	 */
-	protected $api = NULL;
+	protected $api = null;
 
 	/**
 	 * Validate the email address.
@@ -56,38 +56,38 @@ class DEBOUNCE_Email_Validator {
 	 */
 	public function validate() {
 
-    	$email = $this->get_email();
-		foreach ($this->blacklist as $i) {
-			// email vs *@domain 
-    		if ( stripos($i, '*@') !== FALSE ) {
-    			$domain = substr(trim($i), 1);
-    			if ( stripos($email, $domain) !== FALSE ) {
-        			$this->set_is_valid( FALSE );
-        			return apply_filters( 'debounce_email_valid', $this->get_is_valid(), NULL );
-        		}
-    		} else if ( strcasecmp($email, $i) == 0 ) {
-        		$this->set_is_valid( FALSE );
-        		return apply_filters( 'debounce_email_valid', $this->get_is_valid(), NULL );
-    		}
+		$email = $this->get_email();
+		foreach ( $this->blacklist as $i ) {
+			// email vs *@domain
+			if ( stripos( $i, '*@' ) !== false ) {
+				$domain = substr( trim( $i ), 1 );
+				if ( stripos( $email, $domain ) !== false ) {
+					$this->set_is_valid( false );
+					return apply_filters( 'debounce_email_valid', $this->get_is_valid(), null );
+				}
+			} elseif ( strcasecmp( $email, $i ) == 0 ) {
+				$this->set_is_valid( false );
+				return apply_filters( 'debounce_email_valid', $this->get_is_valid(), null );
+			}
 		}
 
 		$api = $this->get_api();
 		$api->set_email( $this->get_email() );
 		$response = $api->request();
 		if ( ! empty( $response->debounce->code ) ) {
-			$this->set_email_status( str_replace('8,','',$response->debounce->code) );
+			$this->set_email_status( str_replace( '8,', '', $response->debounce->code ) );
 		}
 
-		$this->set_is_valid( TRUE );
+		$this->set_is_valid( true );
 
 		// If there was an connection error, consider the email address as valid.
-		if ( NULL === $response ) {
-			$this->set_is_valid( TRUE );
+		if ( null === $response ) {
+			$this->set_is_valid( true );
 			return apply_filters( 'debounce_email_valid', $this->get_is_valid(), $response );
 		}
 
-		if ( ! in_array( $this->get_email_status(), $this->valid_status_list, TRUE ) ) {
-			$this->set_is_valid( FALSE );
+		if ( ! in_array( $this->get_email_status(), $this->valid_status_list, true ) ) {
+			$this->set_is_valid( false );
 		}
 
 		// If the API Key is invalid or depleted, we update an option to show an admin notice.
@@ -189,15 +189,15 @@ class DEBOUNCE_Email_Validator {
 		$this->api = (object) $api;
 		return $this->get_api();
 	}
-	
-	public function add_status_valid ( $rc ) {
 
-		array_push($this->valid_status_list, $rc);
+	public function add_status_valid( $rc ) {
+
+		array_push( $this->valid_status_list, $rc );
 	}
 
-	public function set_blacklist ( $list ) {
+	public function set_blacklist( $list ) {
 
-		$this->blacklist = array_map('trim', explode(',', $list));
+		$this->blacklist = array_map( 'trim', explode( ',', $list ) );
 	}
 
 }

@@ -13,15 +13,15 @@
  * @package Plugins
  */
 
-require_once( dirname( __FILE__ ) . '/src/functions.php' );
-require_once( dirname( __FILE__ ) . '/src/class-debounce-plugin.php' );
+require_once dirname( __FILE__ ) . '/src/functions.php';
+require_once dirname( __FILE__ ) . '/src/class-debounce-plugin.php';
 add_action( 'after_setup_theme', 'debounce_load', 11 );
 
-$plugin_data = get_file_data(__FILE__, array('Version' => 'Version'), false);
+$plugin_data    = get_file_data( __FILE__, array( 'Version' => 'Version' ), false );
 $plugin_version = $plugin_data['Version'];
-	
-define ( 'DEBOUNCE_PLUGIN_CURRENT_VERSION', $plugin_version );
-	
+
+define( 'DEBOUNCE_PLUGIN_CURRENT_VERSION', $plugin_version );
+
 /**
  * Initialize the plugin
  *

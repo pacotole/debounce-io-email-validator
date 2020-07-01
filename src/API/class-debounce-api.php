@@ -22,21 +22,21 @@ class DEBOUNCE_API {
 	 *
 	 * @var string
 	 */
-	protected $email = NULL;
+	protected $email = null;
 
 	/**
 	 * The API Key.
 	 *
 	 * @var string
 	 */
-	protected $apikey = NULL;
+	protected $apikey = null;
 
 	/**
 	 * The response object.
 	 *
 	 * @var object
 	 */
-	protected $response = NULL;
+	protected $response = null;
 
 	/**
 	 * Perform the request.
@@ -53,11 +53,11 @@ class DEBOUNCE_API {
 		$args = array(
 			'method'   => 'POST',
 			'timeout'  => 45,
-			'blocking' => TRUE,
-		    'body'     => array(
-				'email'  => $this->get_email(),
-				'api'        => $this->get_apikey()
-			)
+			'blocking' => true,
+			'body'     => array(
+				'email' => $this->get_email(),
+				'api'   => $this->get_apikey(),
+			),
 		);
 
 		$result = wp_remote_post( $this->endpoint, $args );
@@ -67,7 +67,7 @@ class DEBOUNCE_API {
 			wp_cache_set( $this->get_email(), $response, 'debounce', 86400 ); // cache 24h
 			return $response;
 		}
-		return NULL;
+		return null;
 	}
 
 	/**
@@ -112,7 +112,7 @@ class DEBOUNCE_API {
 	 */
 	public function set_email( $email ) {
 
-		$email = trim( (string) $email );
+		$email       = trim( (string) $email );
 		$this->email = $email;
 		return $this->get_email();
 	}
