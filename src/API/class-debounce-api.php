@@ -45,7 +45,9 @@ class DEBOUNCE_API {
 	 */
 	public function request() {
 
-		$response = wp_cache_get( $this->get_email(), 'debounce' );
+		$email = $this->get_email();
+
+		$response = get_transient( "debounce__$email" );
 		if ( $response ) {
 			return $this->set_response( $response );
 		}
@@ -55,7 +57,7 @@ class DEBOUNCE_API {
 			'timeout'  => 45,
 			'blocking' => true,
 			'body'     => array(
-				'email' => $this->get_email(),
+				'email' => $email,
 				'api'   => $this->get_apikey(),
 			),
 		);
@@ -63,10 +65,11 @@ class DEBOUNCE_API {
 		$result = wp_remote_post( $this->endpoint, $args );
 
 		if ( ! is_wp_error( $result ) ) {
-			$response = $this->set_response( json_decode( wp_remote_retrieve_body( $result ) ) );
-			wp_cache_set( $this->get_email(), $response, 'debounce', 86400 ); // cache 24h
-			return $response;
+			$response = json_decode( wp_remote_retrieve_body( $result ) );
+			set_transient( "debounce__$email", $response, DAY_IN_SECONDS );
+			return $this->set_response( $response );
 		}
+
 		return null;
 	}
 
