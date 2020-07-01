@@ -99,6 +99,7 @@ class DEBOUNCE_Plugin {
 		$this->api->set_apikey( $this->get_option( 'debounce_api_key' ) );
 		$this->validator = new DEBOUNCE_Email_Validator();
 		$this->validator->set_api( $this->api );
+		$this->validator->set_only_news( 1 === (int) $this->get_option( 'debounce_only_news' ) );
 		if ( 0 === (int) $this->get_option( 'debounce_rc305_check' ) ) {
 			$this->validator->add_status_valid( '305' );
 		}

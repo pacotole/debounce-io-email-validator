@@ -181,6 +181,20 @@ class DEBOUNCE_Admin {
 		);
 
 		add_settings_field(
+			'debounce_only_news',
+			__( 'Check only for new users', 'email-validator-by-debounce' ),
+			array( $this, 'render_settings_field' ),
+			'debounce_email_validator',
+			'debounce_pluginPage_section',
+			array(
+				'id'      => 'only_news',
+				'type'    => 'checkbox',
+				'key'     => 'debounce_only_news',
+				'default' => 0,
+			)
+		);
+
+		add_settings_field(
 			'debounce_reg_check',
 			__( 'Validate email on registration', 'email-validator-by-debounce' ),
 			array( $this, 'render_settings_field' ),

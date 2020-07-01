@@ -14,11 +14,11 @@ class DEBOUNCE_Email_Validator {
 		'4',
 		'5',
 		'7',
-
 		'0',
 	);
 
 	protected $blacklist = array();
+	protected $only_news = true;
 
 	/**
 	 * Whether the email address is valid.
@@ -69,6 +69,12 @@ class DEBOUNCE_Email_Validator {
 				$this->set_is_valid( false );
 				return apply_filters( 'debounce_email_valid', $this->get_is_valid(), null );
 			}
+		}
+
+		// Check if email already exists
+		if ( $this->only_news && email_exists( $email ) ) {
+			$this->set_is_valid( true );
+			return apply_filters( 'debounce_email_valid', $this->get_is_valid(), null );
 		}
 
 		$api = $this->get_api();
@@ -198,6 +204,11 @@ class DEBOUNCE_Email_Validator {
 	public function set_blacklist( $list ) {
 
 		$this->blacklist = array_map( 'trim', explode( ',', $list ) );
+	}
+
+	public function set_only_news( $bool ) {
+
+		$this->only_news = $bool;
 	}
 
 }
