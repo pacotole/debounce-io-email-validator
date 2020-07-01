@@ -158,6 +158,13 @@ class DEBOUNCE_Plugin {
 			$comment_check->setup();
 		}
 
+		if ( 1 === (int) $this->get_option( 'debounce_woo_check' ) ) {
+			require_once dirname( __FILE__ ) . '/Checks/class-debounce-woocommerce.php';
+			$comment_check = new DEBOUNCE_WooCommerce();
+			$comment_check->set_validator( $this->validator );
+			$comment_check->setup();
+		}
+
 		/**
 		 * Filters whether the ajax call is only for logged in users. Default: FALSE.
 		 *

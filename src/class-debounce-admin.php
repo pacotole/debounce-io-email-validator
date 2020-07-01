@@ -278,6 +278,20 @@ class DEBOUNCE_Admin {
 			)
 		);
 
+		add_settings_field(
+			'debounce_woo_check',
+			__( 'WooCommerce billing and shipping', 'email-validator-by-debounce' ),
+			array( $this, 'render_settings_field' ),
+			'debounce_email_validator',
+			'debounce_pluginPage_section',
+			array(
+				'id'      => 'woo_check',
+				'type'    => 'checkbox',
+				'key'     => 'debounce_woo_check',
+				'default' => 0,
+			)
+		);
+
 		/*
 		add_settings_field(
 			'debounce_rc308_check',
